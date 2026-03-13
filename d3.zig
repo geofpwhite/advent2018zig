@@ -5,10 +5,7 @@ pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     const allocator = gpa.allocator();
     var lines = try parse(allocator, "d3/input.txt");
-    // var lines = try parse(allocator, "d3/test.txt");
     try part1and2(allocator, &lines);
-    // lines.reset();
-    // try part2(allocator, &lines);
 }
 
 pub fn parse_claims(allocator: std.mem.Allocator, lines: *std.mem.SplitIterator(u8, .any)) !std.ArrayList(claim) {
@@ -28,12 +25,9 @@ pub fn parse_claims(allocator: std.mem.Allocator, lines: *std.mem.SplitIterator(
             .min_y = -1,
             .max_y = -1,
         };
-        // std.debug.print("{s}", .{nums.buffer});
         while (nums.next()) |num_string| {
             if (num_string.len > 0) {
-                // std.debug.print("{s} numstring \n", .{num_string});
                 const num = std.fmt.parseInt(i64, std.mem.trim(u8, num_string, "\r\n"), 10) catch -1;
-
                 switch (index) {
                     0 => c.min_x = num,
                     1 => c.min_y = num,
