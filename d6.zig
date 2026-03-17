@@ -79,6 +79,15 @@ pub fn part1(allocator: std.mem.Allocator, lines: *std.mem.SplitIterator(u8, .an
         }
     }
     std.debug.print("{d}\n", .{highest_area});
+    var safe: usize = 0;
+    i = min_x - 1000;
+    while (i < max_x + 1000) : (i += 1) {
+        var j = max_y - 1000;
+        while (j < max_y + 1000) : (j += 1) {
+            if (within_1000(coords{ .x = i, .y = j }, coord_ary.items)) safe += 1;
+        }
+    }
+    std.debug.print("{d}\n", .{safe});
 }
 
 const coords = struct {
@@ -96,6 +105,16 @@ pub fn all_true(to_check: [4]bool) bool {
 
 pub fn manhattan(coord1: coords, coord2: coords) usize {
     return @intCast(@abs(coord1.x - coord2.x) + @abs(coord1.y - coord2.y));
+}
+pub fn within_1000(check_coord: coords, ary: []coords) bool {
+    var dist: usize = 0;
+    for (ary) |c| {
+        dist += manhattan(check_coord, c);
+        if (dist >= 10000) {
+            return false;
+        }
+    }
+    return true;
 }
 
 pub fn closest(check_coord: coords, ary: []coords) ?coords {
