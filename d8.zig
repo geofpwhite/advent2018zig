@@ -65,6 +65,7 @@ pub fn get_metadata_2(allocator: std.mem.Allocator, nums: []usize, index: usize)
         else => {
             const num_children = nums[index];
             var child_scores: []usize = try allocator.alloc(usize, num_children);
+            defer allocator.free(child_scores);
             const num_metadata_entries = nums[index + 1];
             var next_index = index + 2;
             var cur_child: usize = 0;
