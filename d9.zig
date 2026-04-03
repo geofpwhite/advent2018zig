@@ -19,6 +19,7 @@ pub fn main() !void {
 
 pub fn part1(allocator: std.mem.Allocator, num_players: usize, largest_marble: usize) !void {
     var scores: []usize = try allocator.alloc(usize, num_players);
+    defer allocator.free(scores);
     @memset(scores, 0);
     var marble_circle = try allocator.create(marble_spot);
     marble_circle.left = marble_circle;
