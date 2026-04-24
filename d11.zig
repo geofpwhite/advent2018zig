@@ -57,11 +57,6 @@ fn part1and2() !void {
     std.debug.print("{d},{d},{d} = {d}\n", .{ mi, mj, msize, max });
 }
 
-fn to_subtract(grid: [299][299]i64, i: usize, j: usize, size: usize) ?i64 {
-    var sum:i64 = 0;
-    for (j..j+size) |ij
-}
-
 fn square_power(grid: [299][299]i64, i: usize, j: usize, size: usize) ?i64 {
     if (i + size > 299 or j + size > 299) return null;
     var pwr: i64 = 0;

@@ -37,6 +37,7 @@ pub fn part1(allocator: std.mem.Allocator, lines: *std.mem.SplitIterator(u8, .an
         set.deinit();
         set = try to_map(allocator, points.items);
         all_local = every_point_is_local(set);
+        std.debug.print("{d}\n", .{second});
     }
     std.debug.print("all are local at second {d}", .{second});
 }
@@ -62,17 +63,23 @@ fn to_map(allocator: std.mem.Allocator, points: []Point) !std.AutoHashMap(Coord,
 fn every_point_is_local(set: std.AutoHashMap(Coord, bool)) bool {
     var iter = set.keyIterator();
     var hold_c = Coord{ .x = 0, .y = 0 };
+    var count: usize = 0;
     outer: while (iter.next()) |c| {
+        count += 1;
         for (0..2) |i| {
             for (0..2) |j| {
                 var true_i: i64 = @intCast(i);
                 true_i -= 1;
                 var true_j: i64 = @intCast(j);
                 true_j -= 1;
+                if (true_i == 0 and true_j == 0) continue;
                 hold_c.x = c.x + true_i;
                 hold_c.y = c.y + true_j;
-                if (true_i - 1 == 0 and true_j - 1 == 0) continue;
-                if (set.get(hold_c)) |_| continue :outer;
+                if (set.get(hold_c)) |exists| if (exists) {
+                    // std.debug.print("{any}\n", .{hold_c});
+
+                    continue :outer;
+                };
             }
         }
         return false;
